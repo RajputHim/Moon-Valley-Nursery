@@ -26,6 +26,19 @@ public class GlobalExceptionHandler {
 
 	}
 
+	@ExceptionHandler(OrdersException.class)
+	public ResponseEntity<MyErrorDetails> planterExceptionHandler(OrdersException pe, WebRequest req) {
+
+		MyErrorDetails err = new MyErrorDetails();
+
+		err.setTimestamp(LocalDateTime.now());
+		err.setMessage(pe.getMessage());
+		err.setDetails(req.getDescription(false));
+
+		return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
+
+	}
+	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<MyErrorDetails> genericExceptionHandler(Exception ge, WebRequest req) {
 
