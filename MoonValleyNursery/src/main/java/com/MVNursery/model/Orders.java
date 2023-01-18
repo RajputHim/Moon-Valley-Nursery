@@ -1,6 +1,7 @@
 package com.MVNursery.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,8 +18,8 @@ public class Orders {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer bookingOrderId;
 	
-	@Column(columnDefinition = "DATE")
-	private LocalDate oderDate;
+	
+	private LocalDateTime orderDate;
 	
 	@NotNull(message = "MAndatory")
 	private String transactionMode;
@@ -36,11 +37,11 @@ public class Orders {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Orders(Integer bookingOrderId, LocalDate oderDate, String transactionMode, Integer quantity,
+	public Orders(Integer bookingOrderId, LocalDateTime oderDate, String transactionMode, Integer quantity,
 			double totalCost) {
 		super();
 		this.bookingOrderId = bookingOrderId;
-		this.oderDate = oderDate;
+		this.orderDate = oderDate;
 		this.transactionMode = transactionMode;
 		this.quantity = quantity;
 		this.totalCost = totalCost;
@@ -56,12 +57,12 @@ public class Orders {
 		this.bookingOrderId = bookingOrderId;
 	}
 
-	public LocalDate getOderDate() {
-		return oderDate;
+	public LocalDateTime getOrderDate() {
+		return orderDate;
 	}
 
-	public void setOderDate(LocalDate oderDate) {
-		this.oderDate = oderDate;
+	public void setOrderDate(LocalDateTime localDateTime) {
+		this.orderDate = localDateTime;
 	}
 
 	public String getTransactionMode() {
@@ -98,7 +99,7 @@ public class Orders {
 
 	@Override
 	public String toString() {
-		return "Orders [bookingOrderId=" + bookingOrderId + ", oderDate=" + oderDate + ", transactionMode="
+		return "Orders [bookingOrderId=" + bookingOrderId + ", orderDate=" + orderDate + ", transactionMode="
 				+ transactionMode + ", quantity=" + quantity + ", totalCost=" + totalCost + "]";
 	}
 	

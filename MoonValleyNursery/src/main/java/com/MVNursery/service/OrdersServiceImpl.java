@@ -1,5 +1,8 @@
 package com.MVNursery.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,8 @@ public class OrdersServiceImpl implements OrdersService{
 	public Orders addOrder(Orders orders) throws OrdersException {
 		
 		Orders saveOrder = ordersRepo.save(orders);
+		
+		saveOrder.setOrderDate(LocalDateTime.now());
 		
 		if(saveOrder == null)
 			throw new OrdersException("Add product to the Order first...");
