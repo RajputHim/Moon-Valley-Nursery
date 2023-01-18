@@ -2,7 +2,7 @@ package com.MVNursery.model;
 
 import java.time.LocalDate;
 
-import javax.annotation.Generated;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +17,7 @@ public class Orders {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer bookingOrderId;
 	
+	@Column(columnDefinition = "DATE")
 	private LocalDate oderDate;
 	
 	@NotNull(message = "MAndatory")
@@ -35,8 +36,6 @@ public class Orders {
 		// TODO Auto-generated constructor stub
 	}
 	
-	
-
 	public Orders(Integer bookingOrderId, LocalDate oderDate, String transactionMode, Integer quantity,
 			double totalCost) {
 		super();
