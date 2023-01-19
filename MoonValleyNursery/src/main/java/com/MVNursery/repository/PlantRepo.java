@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.MVNursery.model.Plant;
 
+
 @Repository
 public interface PlantRepo extends JpaRepository<Plant, Integer> {
 
