@@ -12,12 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.MVNursery.model.Planter;
 import com.MVNursery.service.PlanterService;
-
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 public class PlanterController {
@@ -26,7 +25,7 @@ public class PlanterController {
 	private PlanterService pService;
 
 	@PostMapping("/planters")
-	public ResponseEntity<Planter> addPlanterHandler(@Valid @RequestBody Planter planter) {
+	public ResponseEntity<Planter> addPlanterHandler(@RequestBody Planter planter) {
 		Planter savedPlanter = pService.addPlanter(planter);
 
 		return new ResponseEntity<>(savedPlanter, HttpStatus.CREATED);
