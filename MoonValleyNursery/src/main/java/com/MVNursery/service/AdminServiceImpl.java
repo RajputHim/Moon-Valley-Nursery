@@ -14,6 +14,8 @@ public class AdminServiceImpl implements IAdminService{
 	
 	@Override
 	public Admin addAdmin(Admin admin) throws AdminException {
+		if(aRepo.findByEmail(admin.getEmail()) != null)
+			throw new AdminException("Admin already present with the email:-"+admin.getEmail());
 		return aRepo.save(admin);
 	}
 
