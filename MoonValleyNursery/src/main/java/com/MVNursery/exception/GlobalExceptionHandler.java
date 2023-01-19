@@ -13,8 +13,8 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-	@ExceptionHandler(PlanterException.class)
-	public ResponseEntity<MyErrorDetails> planterExceptionHandler(PlanterException pe, WebRequest req) {
+	@ExceptionHandler(PlanterNotFoundException.class)
+	public ResponseEntity<MyErrorDetails> planterExceptionHandler(PlanterNotFoundException pe, WebRequest req) {
 
 		MyErrorDetails err = new MyErrorDetails();
 
