@@ -2,11 +2,13 @@ package com.MVNursery.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.MVNursery.exception.AdminException;
 import com.MVNursery.model.Admin;
 import com.MVNursery.repository.AdminRepo;
 
+@Service
 public class AdminServiceImpl implements IAdminService{
 
 	@Autowired
