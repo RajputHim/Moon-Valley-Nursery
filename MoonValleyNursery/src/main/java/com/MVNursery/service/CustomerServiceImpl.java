@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.MVNursery.exception.CustomerException;
+import com.MVNursery.model.Address;
 import com.MVNursery.model.Customer;
+import com.MVNursery.model.CustomerDTO;
+import com.MVNursery.repository.AddressRepo;
 import com.MVNursery.repository.CustomerRepo;
 
 @Service
@@ -15,8 +18,17 @@ public class CustomerServiceImpl implements ICustomerService{
 	@Autowired
 	private CustomerRepo cRepo;
 	
+	@Autowired
+	private AddressRepo aRepo;
+	
 	@Override
-	public Customer addCustomer(Customer customer) throws CustomerException {
+	public Customer addCustomer(CustomerDTO customerDto) throws CustomerException {
+		if(cRepo.findByEmail(customerDto.getEmail()) != null)
+			throw new CustomerException("Customer already exists with the email:- "+customerDto.getEmail());
+		
+		Customer customer = new Customer(customerDto.getName(), customerDto.getEmail(), customerDto.getPassword());
+		Address address = new Address(customerDto.getAddress().getHouseNo(), customerDto.getAddress().getColony(), customerDto.getAddress().getCity(), customerDto.getAddress().getState(), customerDto.getAddress().getPinCode(), customer);
+		customer.setAddress(address);
 		return cRepo.save(customer);
 	}
 
