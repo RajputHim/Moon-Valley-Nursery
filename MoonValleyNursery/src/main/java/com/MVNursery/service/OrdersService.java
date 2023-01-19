@@ -18,4 +18,6 @@ public interface OrdersService {
 	
 	public Orders deleteOrdrerById(Integer id)throws OrdersException;
 	
+	public Orders updateOrder(Orders orders) throws OrdersException;
+	
 }

@@ -68,6 +68,23 @@ public class OrdersServiceImpl implements OrdersService{
 		else
 			throw new OrdersException("Order Not found with id : "+id);
 	
+	}
+
+	@Override
+	public Orders updateOrder(Orders orders) throws OrdersException {
+		
+		Optional<Orders> opt = ordersRepo.findById(orders.getBookingOrderId());
+		
+		if(opt.isPresent()) {
+		
+			Orders o = ordersRepo.save(orders);
+
+			return o;
+			
+		}
+		else
+			throw new OrdersException("Order Not found with id : "+orders.getBookingOrderId());
+		
 	}	
 		
 }
