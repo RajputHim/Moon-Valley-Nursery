@@ -17,8 +17,7 @@ public class Orders {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer bookingOrderId;
-	
-	
+		
 	private LocalDateTime orderDate;
 	
 	@NotNull(message = "MAndatory")
