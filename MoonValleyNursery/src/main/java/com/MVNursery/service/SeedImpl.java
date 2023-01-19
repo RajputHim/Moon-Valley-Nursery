@@ -29,8 +29,23 @@ private SeedRepo seedrepo;
 
 	@Override
 	public Seed updateSeed(Seed seed) throws SeedException {
-		// TODO Auto-generated method stub
-		return null;
+		Seed ct=null;
+	Seed c=seedrepo.findBySeedId(seed.getSeed_id());
+			if(c!=null) {
+				c.setSeed_name(seed.getSeed_name());
+				c.setSeeds_cost(seed.getSeeds_cost());
+				c.setBloom_time(seed.getBloom_time());
+				c.setTemperature(seed.getTemperature());
+				c.setSeeds_stock(seed.getSeeds_stock());
+				ct=seedrepo.save(c);
+				
+				
+			}	
+			else {
+				throw new SeedException("Not Found");
+			}
+			return ct;
+				
 	}
 
 	@Override
