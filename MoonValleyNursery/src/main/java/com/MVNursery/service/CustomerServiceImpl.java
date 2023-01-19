@@ -3,11 +3,13 @@ package com.MVNursery.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.MVNursery.exception.CustomerException;
 import com.MVNursery.model.Customer;
 import com.MVNursery.repository.CustomerRepo;
 
+@Service
 public class CustomerServiceImpl implements ICustomerService{
 
 	@Autowired

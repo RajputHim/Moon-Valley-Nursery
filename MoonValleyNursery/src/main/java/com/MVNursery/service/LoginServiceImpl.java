@@ -3,6 +3,7 @@ package com.MVNursery.service;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.MVNursery.exception.AdminException;
 import com.MVNursery.exception.CustomerException;
@@ -18,6 +19,7 @@ import com.MVNursery.repository.SessionRepo;
 
 import net.bytebuddy.utility.RandomString;
 
+@Service
 public class LoginServiceImpl implements ILoginService{
 	
 	@Autowired
