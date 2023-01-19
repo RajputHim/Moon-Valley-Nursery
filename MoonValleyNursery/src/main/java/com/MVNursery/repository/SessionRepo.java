@@ -7,5 +7,6 @@ import com.MVNursery.model.Session;
 
 @Repository
 public interface SessionRepo extends JpaRepository<Session, Integer>{
-
+	
+	public Session findBySessionKey(String key);
 }

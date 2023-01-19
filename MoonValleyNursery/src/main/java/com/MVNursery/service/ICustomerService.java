@@ -4,10 +4,11 @@ import java.util.List;
 
 import com.MVNursery.exception.CustomerException;
 import com.MVNursery.model.Customer;
+import com.MVNursery.model.CustomerDTO;
 
 public interface ICustomerService {
 
-	public Customer addCustomer(Customer customer)throws CustomerException;
+	public Customer addCustomer(CustomerDTO customer)throws CustomerException;
 	
 	public Customer getCustomerById(Integer customerId)throws CustomerException;
 	
