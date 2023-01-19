@@ -1,11 +1,13 @@
 package com.MVNursery.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.MVNursery.exception.SessionException;
 import com.MVNursery.model.Session;
 import com.MVNursery.repository.SessionRepo;
 
+@Service
 public class SessionServiceImpl implements ISessionService{
 
 	@Autowired
