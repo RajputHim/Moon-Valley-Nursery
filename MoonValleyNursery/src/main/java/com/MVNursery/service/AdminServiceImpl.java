@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.MVNursery.exception.AdminException;
 import com.MVNursery.model.Admin;
+import com.MVNursery.model.AdminDTO;
 import com.MVNursery.repository.AdminRepo;
 
 @Service
@@ -15,9 +16,13 @@ public class AdminServiceImpl implements IAdminService{
 	private AdminRepo aRepo;
 	
 	@Override
-	public Admin addAdmin(Admin admin) throws AdminException {
-		if(aRepo.findByEmail(admin.getEmail()) != null)
-			throw new AdminException("Admin already present with the email:-"+admin.getEmail());
+	public Admin addAdmin(AdminDTO adminDto) throws AdminException {
+		if(aRepo.findByEmail(adminDto.getEmail()) != null)
+			throw new AdminException("Admin already present with the email:-"+adminDto.getEmail());
+		Admin admin = new Admin();
+		admin.setEmail(adminDto.getEmail());
+		admin.setPassword(adminDto.getPassword());
+		admin.setName(adminDto.getName());
 		return aRepo.save(admin);
 	}
 

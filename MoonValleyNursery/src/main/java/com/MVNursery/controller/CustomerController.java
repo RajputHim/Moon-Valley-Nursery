@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.MVNursery.exception.CustomerException;
 import com.MVNursery.model.Customer;
+import com.MVNursery.model.CustomerDTO;
 import com.MVNursery.service.ICustomerService;
 
 @RestController
@@ -27,7 +28,7 @@ public class CustomerController {
 	private ICustomerService custService;
 	
 	@PostMapping("/customers")
-	public ResponseEntity<Customer> addCustomer(@RequestBody @Valid Customer customer) throws CustomerException{
+	public ResponseEntity<Customer> addCustomer(@RequestBody @Valid CustomerDTO customer) throws CustomerException{
 		Customer addedCustomer = custService.addCustomer(customer);
 		return new ResponseEntity<>(addedCustomer, HttpStatus.CREATED);		
 	}

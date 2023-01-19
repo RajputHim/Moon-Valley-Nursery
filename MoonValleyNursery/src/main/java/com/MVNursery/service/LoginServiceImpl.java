@@ -59,7 +59,7 @@ public class LoginServiceImpl implements ILoginService{
 			if(customer == null)
 				throw new CustomerException("No Customer found with that email:-"+loginDto.getEmail());
 			
-			if(!customer.getPassword().equals(loginDto.getEmail()))
+			if(!customer.getPassword().equals(loginDto.getPassword()))
 				throw new LoginException("The email and password combination seems incorrect. Please try again");
 			
 			String key = RandomString.make(6);

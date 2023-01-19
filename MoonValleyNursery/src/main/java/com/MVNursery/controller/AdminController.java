@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.MVNursery.exception.AdminException;
 import com.MVNursery.model.Admin;
+import com.MVNursery.model.AdminDTO;
 import com.MVNursery.service.IAdminService;
 
 @RestController
@@ -24,7 +25,7 @@ public class AdminController {
 	private IAdminService adminService;
 	
 	@PostMapping("/admins")
-	public ResponseEntity<Admin> addAdmin(@RequestBody @Valid Admin admin) throws AdminException{
+	public ResponseEntity<Admin> addAdmin(@RequestBody @Valid AdminDTO admin) throws AdminException{
 		Admin savedAdmin = adminService.addAdmin(admin);
 		return new ResponseEntity<>(savedAdmin, HttpStatus.CREATED);
 	}
