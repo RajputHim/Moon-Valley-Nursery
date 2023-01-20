@@ -14,11 +14,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.MVNursery.exception.PlanterNotFoundException;
 import com.MVNursery.exception.SeedException;
+import com.MVNursery.exception.SessionException;
 import com.MVNursery.model.Planter;
+import com.MVNursery.model.Session;
+import com.MVNursery.model.UserType;
+import com.MVNursery.service.ISessionService;
 import com.MVNursery.service.PlanterService;
 
 @RestController
@@ -27,29 +32,64 @@ public class PlanterController {
 	@Autowired
 	private PlanterService planterService;
 
-	@PostMapping("/planters")
-	public ResponseEntity<Planter> addPlanterHandler(@Valid @RequestBody Planter planter) {
-		Planter savedPlanter = planterService.addPlanter(planter);
+	@Autowired
+	private ISessionService sessionService;
 
-		return new ResponseEntity<>(savedPlanter, HttpStatus.CREATED);
+	@PostMapping("/planters/{adminId}/{sessionKey}")
+	public ResponseEntity<Planter> addPlanterHandler(@PathVariable("adminId") Integer adminId,
+			@PathVariable("sessionKey") String sessionKey, @Valid @RequestBody Planter planter)
+			throws SessionException {
+
+		Session session = sessionService.getASessionByKey(sessionKey);
+
+		if (session.getUserId() == adminId && session.getUserType() == UserType.ADMIN) {
+
+			Planter savedPlanter = planterService.addPlanter(planter);
+
+			return new ResponseEntity<>(savedPlanter, HttpStatus.CREATED);
+		} else {
+
+			throw new SessionException("Please login with the correct credentials");
+		}
+
 	}
 
 	@PatchMapping("/planters/seeds/{planterId}/{seedId}")
-	public ResponseEntity<Planter> addSeedInPlanterByIdHandler(@PathVariable("planterId") Integer planterId,
-			@PathVariable("seedId") Integer seedId) throws PlanterNotFoundException, SeedException {
+	public ResponseEntity<Planter> addSeedInPlanterByIdHandler(@RequestParam("sessionKey") String sessionKey,
+			@RequestParam("adminId") Integer adminId, @PathVariable("planterId") Integer planterId,
+			@PathVariable("seedId") Integer seedId) throws PlanterNotFoundException, SeedException, SessionException {
 
-		Planter updatedPlanter = planterService.addSeedInPlanterById(planterId, seedId);
+		Session session = sessionService.getASessionByKey(sessionKey);
 
-		return new ResponseEntity<>(updatedPlanter, HttpStatus.ACCEPTED);
+		if (session.getUserId() == adminId && session.getUserType() == UserType.ADMIN) {
+
+			Planter updatedPlanter = planterService.addSeedInPlanterById(planterId, seedId);
+
+			return new ResponseEntity<>(updatedPlanter, HttpStatus.ACCEPTED);
+
+		} else {
+
+			throw new SessionException("Please login with the correct credentials");
+		}
 	}
 
 	@PatchMapping("/planters/plants/{planterId}/{plantId}")
-	public ResponseEntity<Planter> addPlantInPlanterByIdHandler(@PathVariable("planterId") Integer planterId,
-			@PathVariable("plantId") Integer plantId) throws PlanterNotFoundException, SeedException {
+	public ResponseEntity<Planter> addPlantInPlanterByIdHandler(@RequestParam("sessionKey") String sessionKey,
+			@RequestParam("adminId") Integer adminId, @PathVariable("planterId") Integer planterId,
+			@PathVariable("plantId") Integer plantId) throws PlanterNotFoundException, SeedException, SessionException {
 
-		Planter updatedPlanter = planterService.addPlantInPlanterById(planterId, plantId);
+		Session session = sessionService.getASessionByKey(sessionKey);
 
-		return new ResponseEntity<>(updatedPlanter, HttpStatus.ACCEPTED);
+		if (session.getUserId() == adminId && session.getUserType() == UserType.ADMIN) {
+
+			Planter updatedPlanter = planterService.addPlantInPlanterById(planterId, plantId);
+
+			return new ResponseEntity<>(updatedPlanter, HttpStatus.ACCEPTED);
+
+		} else {
+
+			throw new SessionException("Please login with the correct credentials");
+		}
 	}
 
 	@GetMapping("/planters/id/{planterId}")
@@ -74,18 +114,38 @@ public class PlanterController {
 		return new ResponseEntity<>(planter, HttpStatus.OK);
 	}
 
-	@PutMapping("/planters")
-	public ResponseEntity<Planter> updatePlanterByIdHandler(@Valid @RequestBody Planter planter) {
-		Planter updatedPlanter = planterService.updatePlanter(planter);
+	@PutMapping("/planters/{sessionKey}/{adminId}")
+	public ResponseEntity<Planter> updatePlanterByIdHandler(@PathVariable("sessionKey") String sessionKey,
+			@PathVariable("adminId") Integer adminId, @Valid @RequestBody Planter planter) throws SessionException {
 
-		return new ResponseEntity<>(updatedPlanter, HttpStatus.ACCEPTED);
+		Session session = sessionService.getASessionByKey(sessionKey);
+
+		if (session.getUserId() == adminId && session.getUserType() == UserType.ADMIN) {
+
+			Planter updatedPlanter = planterService.updatePlanter(planter);
+
+			return new ResponseEntity<>(updatedPlanter, HttpStatus.ACCEPTED);
+		} else {
+
+			throw new SessionException("Please login with the correct credentials");
+		}
 	}
 
 	@DeleteMapping("/planters/{planterId}")
-	public ResponseEntity<Planter> deletePlanterByIdHandler(@PathVariable("planterId") Integer planterId) {
-		Planter planter = planterService.deletePlanterById(planterId);
+	public ResponseEntity<Planter> deletePlanterByIdHandler(@RequestParam("sessionKey") String sessionKey,
+			@RequestParam("adminId") Integer adminId, @PathVariable("planterId") Integer planterId)
+			throws SessionException {
 
-		return new ResponseEntity<>(planter, HttpStatus.ACCEPTED);
+		Session session = sessionService.getASessionByKey(sessionKey);
+
+		if (session.getUserId() == adminId && session.getUserType() == UserType.ADMIN) {
+			Planter planter = planterService.deletePlanterById(planterId);
+
+			return new ResponseEntity<>(planter, HttpStatus.ACCEPTED);
+		} else {
+
+			throw new SessionException("Please login with the correct credentials");
+		}
 	}
 
 	@GetMapping("/planters")
