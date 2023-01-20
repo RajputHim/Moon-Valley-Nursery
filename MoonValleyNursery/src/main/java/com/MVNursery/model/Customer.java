@@ -38,7 +38,7 @@ public class Customer {
 	@JoinColumn(name = "addressId")
 	private Address address;
 	
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "customer",fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "customer")
 	private List<Orders> orders;
 
 	public Customer() {
