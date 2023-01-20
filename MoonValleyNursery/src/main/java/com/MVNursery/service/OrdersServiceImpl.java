@@ -11,6 +11,8 @@ import com.MVNursery.exception.OrdersException;
 import com.MVNursery.model.Orders;
 import com.MVNursery.repository.OrdersRepo;
 
+import lombok.Data;
+
 @Service
 public class OrdersServiceImpl implements OrdersService{
 
