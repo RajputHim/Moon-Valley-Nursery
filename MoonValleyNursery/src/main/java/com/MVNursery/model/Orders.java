@@ -28,25 +28,24 @@ public class Orders {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer bookingOrderId;
-		
+
 	private LocalDateTime orderDate;
-	
+
 	@NotNull(message = "MAndatory")
 	private String transactionMode;
-	
+
 	@NotNull(message = "MAndatory")
 	private Integer quantity;
-	
+
 	@NotNull(message = "MAndatory")
 	private double totalCost;
-	
+
 	@ManyToOne(cascade = CascadeType.ALL)
 //	@JsonIgnore
 	private Planter planters;
-	
-//	@OneToOne(mappedBy = "orders",cascade = CascadeType.ALL)
+
+	@ManyToOne(cascade = CascadeType.ALL)
 //	@JsonIgnore
 	private Customer customer;
-	
-	
+
 }
