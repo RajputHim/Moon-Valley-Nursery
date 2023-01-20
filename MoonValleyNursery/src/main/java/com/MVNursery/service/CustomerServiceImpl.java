@@ -46,6 +46,9 @@ public class CustomerServiceImpl implements ICustomerService{
 
 	@Override
 	public Customer updateCustomer(Customer customer) throws CustomerException {
+		if(cRepo.findByEmail(customer.getEmail()) != null) 
+			throw new CustomerException("The email that you have entered is already present. Please enter a different email");
+		
 		Customer existingCustomer = cRepo.findById(customer.getCustomerId()).orElseThrow(()-> new CustomerException("No Customer found with that Id:-"+customer.getCustomerId()));
 		return cRepo.save(customer);
 	}
