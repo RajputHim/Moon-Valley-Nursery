@@ -2,6 +2,7 @@ package com.MVNursery.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,12 +40,12 @@ public class Orders {
 	@NotNull(message = "MAndatory")
 	private double totalCost;
 	
-	@ManyToOne
-	@JsonIgnore
+	@ManyToOne(cascade = CascadeType.ALL)
+//	@JsonIgnore
 	private Planter planters;
 	
-	@OneToOne
-	@JsonIgnore
+//	@OneToOne(mappedBy = "orders",cascade = CascadeType.ALL)
+//	@JsonIgnore
 	private Customer customer;
 	
 	
