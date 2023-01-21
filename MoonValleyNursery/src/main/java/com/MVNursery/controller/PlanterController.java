@@ -35,14 +35,14 @@ public class PlanterController {
 	@Autowired
 	private ISessionService sessionService;
 
-	@PostMapping("/planters/{adminId}/{sessionKey}")
-	public ResponseEntity<Planter> addPlanterHandler(@PathVariable("adminId") Integer adminId,
+	@PostMapping("/planters/{customerId}/{sessionKey}")
+	public ResponseEntity<Planter> addPlanterHandler(@PathVariable("customerId") Integer customerId,
 			@PathVariable("sessionKey") String sessionKey, @Valid @RequestBody Planter planter)
 			throws SessionException {
 
 		Session session = sessionService.getASessionByKey(sessionKey);
 
-		if (session.getUserId() == adminId && session.getUserType() == UserType.ADMIN) {
+		if (session.getUserId() == customerId && session.getUserType() == UserType.CUSTOMER) {
 
 			Planter savedPlanter = planterService.addPlanter(planter);
 
