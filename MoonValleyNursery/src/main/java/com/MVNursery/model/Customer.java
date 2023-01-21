@@ -19,27 +19,38 @@ import javax.validation.constraints.Size;
 public class Customer {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer customerId;
-	
+
 	@NotNull
 	@Size(min = 3, max = 15, message = "Name should be minimum 3 and maximum 15 characters long")
 	private String name;
-	
+
 	@NotNull
 	@Email
 	private String email;
-	
+
 	@NotNull
 	@Size(min = 8, max = 15, message = "Password should be minimum 8 and maximum 15 characters long")
 	private String password;
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "addressId")
 	private Address address;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "customer")
 	private List<Orders> orders;
+
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private ProductCart cart = new ProductCart();
+
+	public ProductCart getCart() {
+		return cart;
+	}
+
+	public void setCart(ProductCart cart) {
+		this.cart = cart;
+	}
 
 	public Customer() {
 		super();
@@ -56,7 +67,6 @@ public class Customer {
 		this.password = password;
 		this.address = address;
 	}
-	
 
 	public Customer(
 			@NotNull @Size(min = 3, max = 15, message = "Name should be minimum 3 and maximum 15 characters long") String name,
@@ -113,6 +123,5 @@ public class Customer {
 		return "Customer [customerId=" + customerId + ", name=" + name + ", email=" + email + ", password=" + password
 				+ ", address=" + address + "]";
 	}
-	
-	
+
 }

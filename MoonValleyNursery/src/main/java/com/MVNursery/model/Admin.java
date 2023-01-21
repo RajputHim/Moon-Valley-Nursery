@@ -12,9 +12,9 @@ import javax.validation.constraints.Size;
 public class Admin {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer adminId;
-	
+
 	@NotNull
 	@Size(min = 3, max = 15, message = "Name should be minimum 3 and maximum 15 characters long")
 	private String name;
@@ -22,11 +22,11 @@ public class Admin {
 	@NotNull
 	@Email
 	private String email;
-	
+
 	@NotNull
 	@Size(min = 8, max = 15, message = "Password should be minimum 8 and maximum 15 characters long")
 	private String password;
-	
+
 	public Admin() {
 		super();
 	}
@@ -61,6 +61,7 @@ public class Admin {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 	public String getName() {
 		return name;
 	}
@@ -74,7 +75,4 @@ public class Admin {
 		return "Admin [name=" + name + ", email=" + email + ", password=" + password + "]";
 	}
 
-	
-	
-	
 }

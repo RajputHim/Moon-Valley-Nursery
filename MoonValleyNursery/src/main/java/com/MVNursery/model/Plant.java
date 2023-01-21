@@ -21,9 +21,9 @@ import lombok.ToString;
 public class Plant {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer plantId;
-	
+
 	@NotNull(message = "plant height can not be null")
 	private Integer plantHeight;
 	@NotNull
@@ -38,15 +38,15 @@ public class Plant {
 	private String difficultyLevel;
 	@NotNull
 	private String temperature;
-	
+
 	@NotNull
 	private String typeOfPlant;
 	@NotNull
 	private String plantDescription;
 	@NotNull
 	private Integer plantStock;
-	
+
 	@NotNull(message = "plant cost can not be null")
 	private Double plantCost;
-	
+
 }
