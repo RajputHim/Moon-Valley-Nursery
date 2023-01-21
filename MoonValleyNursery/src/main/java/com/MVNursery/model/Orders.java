@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
@@ -26,7 +27,7 @@ import lombok.ToString;
 public class Orders {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer bookingOrderId;
 
 	private LocalDateTime orderDate;
@@ -40,12 +41,17 @@ public class Orders {
 	@NotNull(message = "MAndatory")
 	private double totalCost;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-//	@JsonIgnore
-	private Planter planters;
+//	@ManyToOne(cascade = CascadeType.ALL)
+////	@JsonIgnore
+//	private Planter planters;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 //	@JsonIgnore
 	private Customer customer;
+
+//	@NotNull
+	@OneToOne
+	@JsonIgnore
+	private ProductCart cart;
 
 }

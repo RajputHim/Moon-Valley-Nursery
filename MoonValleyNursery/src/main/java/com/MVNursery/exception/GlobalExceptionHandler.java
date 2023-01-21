@@ -13,6 +13,19 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+	@ExceptionHandler(CartNotFoundException.class)
+	public ResponseEntity<MyErrorDetails> cartNotFoundExceptionHandler(CartNotFoundException ce, WebRequest req) {
+
+		MyErrorDetails err = new MyErrorDetails();
+
+		err.setTimestamp(LocalDateTime.now());
+		err.setMessage(ce.getMessage());
+		err.setDetails(req.getDescription(false));
+
+		return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
+
+	}
+
 	@ExceptionHandler(PlanterNotFoundException.class)
 	public ResponseEntity<MyErrorDetails> planterExceptionHandler(PlanterNotFoundException pe, WebRequest req) {
 
@@ -25,7 +38,7 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
 
 	}
-	
+
 	@ExceptionHandler(OrdersException.class)
 	public ResponseEntity<MyErrorDetails> ordersExceptionHandler(OrdersException pe, WebRequest req) {
 
@@ -39,8 +52,6 @@ public class GlobalExceptionHandler {
 
 	}
 
-
-	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<MyErrorDetails> genericExceptionHandler(Exception ge, WebRequest req) {
 

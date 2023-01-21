@@ -26,96 +26,100 @@ import com.MVNursery.service.ICustomerService;
 import com.MVNursery.service.ISessionService;
 import com.MVNursery.service.OrdersService;
 import com.MVNursery.service.PlanterService;
+import com.MVNursery.service.ProductCartService;
 
 @RestController
-@RequestMapping(value="orders")
+@RequestMapping(value = "orders")
 public class OrdersController {
 
 	@Autowired
 	private OrdersService ordersService;
-	
+
 	@Autowired
 	private ISessionService sessionService;
-	
+
 	@Autowired
 	private PlanterService planterService;
-	
+
 	@Autowired
 	private ICustomerService customerService;
-	
-	@PostMapping(value="/{customerId}/{sessionKey}/{pid}")
-	public ResponseEntity<Orders> addOrdersHandler(@Valid @RequestBody Orders orders,@PathVariable("customerId") Integer customerId,			
-			@PathVariable("sessionKey") String sessionKey,@PathVariable("pid") Integer pid) throws SessionException, CustomerException{
-		
+
+	@Autowired
+	private ProductCartService cartService;
+
+	@PostMapping(value = "/{customerId}/{sessionKey}/{cartId}")
+	public ResponseEntity<Orders> addOrdersHandler(@Valid @RequestBody Orders orders,
+			@PathVariable("customerId") Integer customerId, @PathVariable("sessionKey") String sessionKey,
+			@PathVariable("cartId") Integer cartId) throws SessionException, CustomerException {
+
 		Session session = sessionService.getASessionByKey(sessionKey);
 		if (session.getUserId() == customerId && session.getUserType() == UserType.CUSTOMER) {
-		
-		orders.setPlanters(planterService.viewPlanterById(pid));
-		orders.setCustomer(customerService.getCustomerById(customerId));	
-			
-		Orders saveOrders = ordersService.addOrder(orders);
-		
-		return new ResponseEntity<Orders>(saveOrders, HttpStatus.CREATED);
-		
-		}
-		else {
+
+//			orders.setPlanters(planterService.viewPlanterById(pid));
+			orders.setCart(cartService.viewCartbyId(cartId, customerId));
+			orders.setCustomer(customerService.getCustomerById(customerId));
+
+			Orders saveOrders = ordersService.addOrder(orders);
+
+			return new ResponseEntity<Orders>(saveOrders, HttpStatus.CREATED);
+
+		} else {
 			throw new SessionException("Please login with the correct credentials");
 		}
 	}
-	
+
 	@GetMapping(value = "")
-	public ResponseEntity<List<Orders>> viewAllOrdersHandler(){
-		
+	public ResponseEntity<List<Orders>> viewAllOrdersHandler() {
+
 		List<Orders> list = ordersService.viewAllOrders();
-		
+
 		return new ResponseEntity<List<Orders>>(list, HttpStatus.ACCEPTED);
-		
+
 	}
-	
+
 	@GetMapping("/order/{id}")
-	public ResponseEntity<Orders> viewOrderHandler(@PathVariable("id") Integer id){
-		
+	public ResponseEntity<Orders> viewOrderHandler(@PathVariable("id") Integer id) {
+
 		Orders orders = ordersService.viewOrderById(id);
-		
+
 		return new ResponseEntity<Orders>(orders, HttpStatus.ACCEPTED);
-		
+
 	}
-	
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Orders> deleteOrderHandler(@PathVariable("id") Integer id,
-			@RequestParam("adminId") Integer adminId,@RequestParam("sessionKey") String sessionKey) throws SessionException{
-		
-		Session session = sessionService.getASessionByKey(sessionKey);
-		if (session.getUserId() == adminId && session.getUserType() == UserType.ADMIN) {
-		
-			Orders orders = ordersService.deleteOrdrerById(id);
-			
-			return new ResponseEntity<Orders>(orders, HttpStatus.ACCEPTED);
-			
-		}
-		else {
-			throw new SessionException("Please login with the correct credentials");
-		}
-		
-	}
-	
-	@PutMapping(value="/{adminId}/{sessionKey}")
-	public ResponseEntity<Orders> updateOrdersHandler( @RequestBody Orders orders,
-			@PathVariable("adminId") Integer adminId,@PathVariable("sessionKey") String sessionKey) throws SessionException {
+			@RequestParam("adminId") Integer adminId, @RequestParam("sessionKey") String sessionKey)
+			throws SessionException {
 
 		Session session = sessionService.getASessionByKey(sessionKey);
 		if (session.getUserId() == adminId && session.getUserType() == UserType.ADMIN) {
-		
+
+			Orders orders = ordersService.deleteOrdrerById(id);
+
+			return new ResponseEntity<Orders>(orders, HttpStatus.ACCEPTED);
+
+		} else {
+			throw new SessionException("Please login with the correct credentials");
+		}
+
+	}
+
+	@PutMapping(value = "/{adminId}/{sessionKey}")
+	public ResponseEntity<Orders> updateOrdersHandler(@RequestBody Orders orders,
+			@PathVariable("adminId") Integer adminId, @PathVariable("sessionKey") String sessionKey)
+			throws SessionException {
+
+		Session session = sessionService.getASessionByKey(sessionKey);
+		if (session.getUserId() == adminId && session.getUserType() == UserType.ADMIN) {
+
 			Orders saveOrders = ordersService.updateOrder(orders);
 
 			return new ResponseEntity<Orders>(saveOrders, HttpStatus.ACCEPTED);
-			
-		}
-		else {
+
+		} else {
 			throw new SessionException("Please login with the correct credentials");
 		}
-			
-		
+
 	}
-	
+
 }
