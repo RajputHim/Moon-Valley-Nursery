@@ -51,6 +51,7 @@ public class OrdersController {
 		}
 	}
 	
+	@GetMapping(value = "")
 	public ResponseEntity<List<Orders>> viewAllOrdersHandler(){
 		
 		List<Orders> list = ordersService.viewAllOrders();
