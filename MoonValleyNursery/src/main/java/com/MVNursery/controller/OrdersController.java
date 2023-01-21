@@ -17,12 +17,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.MVNursery.exception.CustomerException;
 import com.MVNursery.exception.SessionException;
 import com.MVNursery.model.Orders;
 import com.MVNursery.model.Session;
 import com.MVNursery.model.UserType;
+import com.MVNursery.service.ICustomerService;
 import com.MVNursery.service.ISessionService;
 import com.MVNursery.service.OrdersService;
+import com.MVNursery.service.PlanterService;
 
 @RestController
 @RequestMapping(value="orders")
@@ -34,13 +37,22 @@ public class OrdersController {
 	@Autowired
 	private ISessionService sessionService;
 	
-	@PostMapping(value="/{adminId}/{sessionKey}")
-	public ResponseEntity<Orders> addOrdersHandler(@Valid @RequestBody Orders orders,@PathVariable("adminId") Integer adminId,			
-			@PathVariable("sessionKey") String sessionKey) throws SessionException{
+	@Autowired
+	private PlanterService planterService;
+	
+	@Autowired
+	private ICustomerService customerService;
+	
+	@PostMapping(value="/{customerId}/{sessionKey}/{pid}")
+	public ResponseEntity<Orders> addOrdersHandler(@Valid @RequestBody Orders orders,@PathVariable("customerId") Integer customerId,			
+			@PathVariable("sessionKey") String sessionKey,@PathVariable("pid") Integer pid) throws SessionException, CustomerException{
 		
 		Session session = sessionService.getASessionByKey(sessionKey);
-		if (session.getUserId() == adminId && session.getUserType() == UserType.ADMIN) {
+		if (session.getUserId() == customerId && session.getUserType() == UserType.CUSTOMER) {
 		
+		orders.setPlanters(planterService.viewPlanterById(pid));
+		orders.setCustomer(customerService.getCustomerById(customerId));	
+			
 		Orders saveOrders = ordersService.addOrder(orders);
 		
 		return new ResponseEntity<Orders>(saveOrders, HttpStatus.CREATED);
