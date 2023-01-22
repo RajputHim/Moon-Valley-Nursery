@@ -20,8 +20,9 @@ ONLINE NURSERY PLANT and SEED MANAGMENT | Online plant and seed management where
 # Module
 ![module](https://user-images.githubusercontent.com/105916493/201523734-62c70767-04aa-45a2-a677-287084ea8738.png)
 
+
 # ER-Diagram
-![Untitled](https://user-images.githubusercontent.com/105916493/201523747-1192a6de-aa8f-4ea1-abb2-f70cfc6a969d.jpg)
+![Untitled](https://user-images.githubusercontent.com/105914405/213915039-a6362297-58bd-4b95-aed5-e45c3d928212.png)
 # Technology Used
 - JAVA
 - Spring
