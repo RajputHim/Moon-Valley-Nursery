@@ -35,10 +35,10 @@ public class Orders {
 	@NotNull(message = "MAndatory")
 	private String transactionMode;
 
-	@NotNull(message = "MAndatory")
+//	@NotNull(message = "MAndatory")
 	private Integer quantity;
 
-	@NotNull(message = "MAndatory")
+//	@NotNull(message = "MAndatory")
 	private double totalCost;
 
 //	@ManyToOne(cascade = CascadeType.ALL)
