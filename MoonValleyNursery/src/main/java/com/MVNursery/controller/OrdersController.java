@@ -20,6 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.MVNursery.exception.CustomerException;
 import com.MVNursery.exception.SessionException;
 import com.MVNursery.model.Orders;
+import com.MVNursery.model.Plant;
+import com.MVNursery.model.Planter;
+import com.MVNursery.model.ProductCart;
+import com.MVNursery.model.Seed;
 import com.MVNursery.model.Session;
 import com.MVNursery.model.UserType;
 import com.MVNursery.service.ICustomerService;
@@ -56,8 +60,46 @@ public class OrdersController {
 		if (session.getUserId() == customerId && session.getUserType() == UserType.CUSTOMER) {
 
 //			orders.setPlanters(planterService.viewPlanterById(pid));
-			orders.setCart(cartService.viewCartbyId(cartId, customerId));
+			ProductCart cart = cartService.viewCartbyId(cartId, customerId);
+			orders.setCart(cart);
 			orders.setCustomer(customerService.getCustomerById(customerId));
+			orders.setQuantity(cart.getPlants().size() + cart.getPlanters().size() + cart.getSeeds().size());
+
+			List<Plant> plants = cart.getPlants();
+
+			Double plantCost = 0.0;
+			Double seedCost = 0.0;
+			Double planterCost = 0.0;
+
+			for (Plant p : plants) {
+				plantCost = plantCost + (p.getPlantCost() * p.getPlantStock());
+
+			}
+
+			List<Seed> seeds = cart.getSeeds();
+
+			for (Seed s : seeds) {
+				seedCost = seedCost + (s.getSeeds_cost() * s.getSeeds_stock());
+
+			}
+
+			List<Planter> planters = cart.getPlanters();
+
+			for (Planter pl : planters) {
+				planterCost = planterCost + (pl.getPlanterCost() * pl.getPlanterStock());
+
+				List<Plant> plantersPlant = pl.getPlants();
+				for (Plant p : plantersPlant) {
+					plantCost = plantCost + (p.getPlantCost() * p.getPlantStock());
+				}
+				List<Seed> planterSeeds = cart.getSeeds();
+
+				for (Seed s : planterSeeds) {
+					seedCost = seedCost + (s.getSeeds_cost() * s.getSeeds_stock());
+				}
+			}
+
+			orders.setTotalCost(planterCost + plantCost + seedCost);
 
 			Orders saveOrders = ordersService.addOrder(orders);
 
